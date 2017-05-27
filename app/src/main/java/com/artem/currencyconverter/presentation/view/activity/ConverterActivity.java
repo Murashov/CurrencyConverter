@@ -36,19 +36,13 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     private CurrencyAdapter    mAdapter;
 
     @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        View rootView = super.onCreateView(parent, name, context, attrs);
-
-        mConvertButton  = (Button) rootView.findViewById(R.id.a_conv_convert_button);
-        mSourceEditText = (EditText) rootView.findViewById(R.id.a_conv_source_et);
-        mTargetEditText = (EditText) rootView.findViewById(R.id.a_conv_target_et);
-        mSourceSpinner  = (Spinner) rootView.findViewById(R.id.a_conv_source_sp);
-        mTargetSpinner  = (Spinner) rootView.findViewById(R.id.a_conv_target_sp);
-
-        mPresenter.setView(this);
-        mPresenter.initialize();
-
-        return rootView;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mConvertButton  = (Button) findViewById(R.id.a_conv_convert_button);
+        mSourceEditText = (EditText) findViewById(R.id.a_conv_source_et);
+        mTargetEditText = (EditText) findViewById(R.id.a_conv_target_et);
+        mSourceSpinner  = (Spinner) findViewById(R.id.a_conv_source_sp);
+        mTargetSpinner  = (Spinner) findViewById(R.id.a_conv_target_sp);
     }
 
     @Override
@@ -92,6 +86,8 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     @Override
     public void onLoadFinished(Loader<ConverterPresenter> loader, ConverterPresenter data) {
         mPresenter = data;
+        mPresenter.setView(this);
+        mPresenter.initialize();
     }
 
     @Override

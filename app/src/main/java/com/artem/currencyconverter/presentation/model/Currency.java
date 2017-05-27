@@ -47,6 +47,22 @@ public class Currency implements Parcelable {
         return mValue;
     }
 
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public void setCode(String code) {
+        mCode = code;
+    }
+
+    public void setNominal(Integer nominal) {
+        mNominal = nominal;
+    }
+
+    public void setValue(Double value) {
+        mValue = value;
+    }
+
     @Override
     public int describeContents() {
         return 0;
