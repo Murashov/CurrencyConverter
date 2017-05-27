@@ -7,6 +7,6 @@ import com.artem.currencyconverter.presentation.view.MvpView;
  */
 
 public interface MvpPresenter<T extends MvpView> {
-    void onViewAttached(T view);
-    void onViewDetached();
+    void setView(T view);
+    void destroy();
 }
