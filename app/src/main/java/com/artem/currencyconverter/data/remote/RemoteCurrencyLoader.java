@@ -14,6 +14,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class RemoteCurrencyLoader {
         try {
             URL url = new URL(mUrl);
 
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            in = new BufferedReader(new InputStreamReader(url.openStream(), "Windows-1251"));
             String str;
             while ((str = in.readLine()) != null) {
                 sb.append(str);
