@@ -1,5 +1,9 @@
 package com.artem.currencyconverter.presentation.presenter.factory;
 
+import android.os.Handler;
+import android.os.Looper;
+
+import com.artem.currencyconverter.domain.interactor.GetCurrenciesInteractor;
 import com.artem.currencyconverter.presentation.presenter.ConverterPresenter;
 import com.artem.currencyconverter.presentation.presenter.MvpPresenter;
 
@@ -10,6 +14,6 @@ import com.artem.currencyconverter.presentation.presenter.MvpPresenter;
 public class ConverterPresenterFactory implements PresenterFactory<ConverterPresenter> {
     @Override
     public ConverterPresenter create() {
-        return new ConverterPresenter();
+        return new ConverterPresenter(new GetCurrenciesInteractor(new Handler(Looper.getMainLooper())));
     }
 }

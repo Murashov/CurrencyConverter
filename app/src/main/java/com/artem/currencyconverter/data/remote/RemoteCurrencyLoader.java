@@ -3,10 +3,15 @@ package com.artem.currencyconverter.data.remote;
 import android.util.Log;
 
 import com.artem.currencyconverter.data.model.CurrencyEntity;
+import com.artem.currencyconverter.data.model.ExchangeRates;
+
+import org.simpleframework.xml.core.Persister;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,14 +23,16 @@ import java.util.List;
 
 public class RemoteCurrencyLoader {
     private String mUrl;
+    private Persister mPersister = new Persister();
 
     public RemoteCurrencyLoader(String url) {
         mUrl = url;
     }
 
-    public List<CurrencyEntity> load() throws IOException {
-        Log.d("RemoteLoader", readXML());
-        return new ArrayList<>();
+    public List<CurrencyEntity> load() throws Exception {
+        Reader reader = new StringReader(readXML());
+        ExchangeRates rates = mPersister.read(ExchangeRates.class, reader, false);
+        return rates.getCurrencyEntities();
     }
 
     private String readXML() throws IOException {
@@ -33,10 +40,8 @@ public class RemoteCurrencyLoader {
         StringBuilder sb = new StringBuilder();
 
         try {
-            // Create a URL for the desired page
             URL url = new URL(mUrl);
 
-            // Read all the text returned by the server
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             String str;
             while ((str = in.readLine()) != null) {

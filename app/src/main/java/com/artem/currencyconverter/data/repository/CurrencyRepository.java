@@ -17,7 +17,7 @@ public class CurrencyRepository {
 
     private final RemoteCurrencyLoader mRemoteCurrencyLoader = new RemoteCurrencyLoader(Constants.CURRENCIES_URL);
 
-    public List<CurrencyEntity> getCurrencies() throws IOException {
+    public List<CurrencyEntity> getCurrencies() throws Exception {
         return mRemoteCurrencyLoader.load();
     }
 

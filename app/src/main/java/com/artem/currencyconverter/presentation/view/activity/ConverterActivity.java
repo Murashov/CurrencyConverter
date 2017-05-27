@@ -75,7 +75,9 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.destroy();
+        if (mPresenter != null) {
+            mPresenter.destroy();
+        }
     }
 
     @Override
