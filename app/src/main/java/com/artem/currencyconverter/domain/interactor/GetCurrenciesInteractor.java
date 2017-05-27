@@ -1,5 +1,7 @@
 package com.artem.currencyconverter.domain.interactor;
 
+import android.os.AsyncTask;
+
 import com.artem.currencyconverter.domain.observer.InteractorResultObserver;
 import com.artem.currencyconverter.presentation.model.Currency;
 
