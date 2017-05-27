@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
+
+    <string name="a_conv_button_title">Конвертировать</string>
+    <string name="a_conv_source">Исходная валюта:</string>
+    <string name="a_conv_target">Целевая валюта:</string>
 </resources>
