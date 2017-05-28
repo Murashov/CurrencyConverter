@@ -14,6 +14,7 @@ import java.util.List;
 public class ConverterPresenter implements MvpPresenter<ConverterView>, InteractorResultObserver<List<Currency>> {
     private ConverterView mView;
     private GetCurrenciesInteractor mGetCurrenciesInteractor;
+    private List<Currency> mCurrencies;
 
     public ConverterPresenter(GetCurrenciesInteractor getCurrenciesInteractor) {
         mGetCurrenciesInteractor = getCurrenciesInteractor;
@@ -31,13 +32,18 @@ public class ConverterPresenter implements MvpPresenter<ConverterView>, Interact
 
     @Override
     public void onResult(List<Currency> result) {
-        mView.addCurrencyList(result);
+        mCurrencies = result;
+        mView.addCurrencyList(mCurrencies);
         mView.stopLoading();
     }
 
     @Override
     public void onError(Throwable error) {
 
+    }
+
+    public void convert(double sourceValue, int sourceIndex, int targetIndex) {
+        mView.setTargetValue(sourceValue * mCurrencies.get(sourceIndex).convertTo(mCurrencies.get(targetIndex)));
     }
 
     public void initialize() {

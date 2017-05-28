@@ -1,10 +1,8 @@
 package com.artem.currencyconverter.presentation.view.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +23,7 @@ import java.util.List;
  * Created by Artem on 5/27/2017.
  */
 
-public class ConverterActivity extends BaseActivity<ConverterPresenter> implements ConverterView {
+public class ConverterActivity extends BaseActivity<ConverterPresenter> implements ConverterView, View.OnClickListener{
     private Button      mConvertButton;
     private EditText    mSourceEditText;
     private EditText    mTargetEditText;
@@ -43,6 +41,8 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
         mTargetEditText = (EditText) findViewById(R.id.a_conv_target_et);
         mSourceSpinner  = (Spinner) findViewById(R.id.a_conv_source_sp);
         mTargetSpinner  = (Spinner) findViewById(R.id.a_conv_target_sp);
+
+        mConvertButton.setOnClickListener(this);
     }
 
     @Override
@@ -50,6 +50,26 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
         mAdapter = new CurrencyAdapter(this, currencies);
         mSourceSpinner.setAdapter(mAdapter);
         mTargetSpinner.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void setTargetValue(double value) {
+        mTargetEditText.setText(String.valueOf(value));
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.a_conv_convert_button) {
+            String strValue = mSourceEditText.getText().toString();
+            if (! strValue.isEmpty()) {
+                try {
+                    double value = Double.valueOf(strValue);
+                    mPresenter.convert(value, mSourceSpinner.getSelectedItemPosition(), mTargetSpinner.getSelectedItemPosition());
+                } catch (NumberFormatException ignore) {
+
+                }
+            }
+        }
     }
 
     @Override
