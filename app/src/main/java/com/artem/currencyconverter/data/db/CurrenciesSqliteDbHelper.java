@@ -26,7 +26,7 @@ public class CurrenciesSqliteDbHelper extends SQLiteOpenHelper implements Curren
                     CurrencyEntity.COLUMN_NAME_CHAR_CODE    + " " + CurrencyEntity.COLUMN_TYPE_CHAR_CODE + "," +
                     CurrencyEntity.COLUMN_NAME_NOMINAL      + " " + CurrencyEntity.COLUMN_TYPE_NOMINAL + "," +
                     CurrencyEntity.COLUMN_NAME_NAME         + " " + CurrencyEntity.COLUMN_TYPE_NAME + "," +
-                    CurrencyEntity.COLUMN_NAME_VALUE        + " " + CurrencyEntity.COLUMN_TYPE_VALUE + "," +
+                    CurrencyEntity.COLUMN_NAME_VALUE        + " " + CurrencyEntity.COLUMN_TYPE_VALUE +
             " )";
 
     private static final String SQL_CLEAR_TABLE = "DELETE FROM " + CurrencyEntity.TABLE_NAME;
