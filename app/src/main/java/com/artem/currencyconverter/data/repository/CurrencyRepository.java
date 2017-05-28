@@ -1,11 +1,12 @@
 package com.artem.currencyconverter.data.repository;
 
+import com.artem.currencyconverter.data.db.CurrenciesDbHelper;
+import com.artem.currencyconverter.data.db.CurrenciesSqliteDbHelper;
 import com.artem.currencyconverter.data.model.CurrencyEntity;
 import com.artem.currencyconverter.data.remote.RemoteCurrencyLoader;
+import com.artem.currencyconverter.presentation.ConverterApplication;
 import com.artem.currencyconverter.utils.Constants;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -16,9 +17,12 @@ public class CurrencyRepository {
     private static CurrencyRepository sCurrencyRepository;
 
     private final RemoteCurrencyLoader mRemoteCurrencyLoader = new RemoteCurrencyLoader(Constants.CURRENCIES_URL);
+    private final CurrenciesDbHelper mDbHelper = new CurrenciesSqliteDbHelper(ConverterApplication.getContextObject());
 
     public List<CurrencyEntity> getCurrencies() throws Exception {
-        return mRemoteCurrencyLoader.load();
+        List<CurrencyEntity> result = mRemoteCurrencyLoader.load();
+        mDbHelper.refreshCurrencies(result);
+        return result;
     }
 
     public static CurrencyRepository getInstance() {

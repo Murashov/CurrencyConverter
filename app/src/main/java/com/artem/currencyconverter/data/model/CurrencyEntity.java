@@ -13,6 +13,26 @@ import java.util.Locale;
  */
 @Root(name = "Valute")
 public class CurrencyEntity {
+    public static final String TABLE_NAME = "currencies";
+
+    private static final String TEXT_TYPE   = "TEXT";
+    private static final String INT_TYPE    = "INTEGER";
+    private static final String REAL_TYPE   = "REAL";
+
+    public static final String COLUMN_NAME_ID           = "id";
+    public static final String COLUMN_NAME_NUM_CODE     = "num_code";
+    public static final String COLUMN_NAME_CHAR_CODE    = "char_code";
+    public static final String COLUMN_NAME_NOMINAL      = "nominal";
+    public static final String COLUMN_NAME_NAME         = "name";
+    public static final String COLUMN_NAME_VALUE        = "value";
+
+    public static final String COLUMN_TYPE_ID           = TEXT_TYPE;
+    public static final String COLUMN_TYPE_NUM_CODE     = INT_TYPE;
+    public static final String COLUMN_TYPE_CHAR_CODE    = TEXT_TYPE;
+    public static final String COLUMN_TYPE_NOMINAL      = INT_TYPE;
+    public static final String COLUMN_TYPE_NAME         = TEXT_TYPE;
+    public static final String COLUMN_TYPE_VALUE        = REAL_TYPE;
+
     @Attribute(name = "ID")
     private String mId;
 
@@ -31,6 +51,8 @@ public class CurrencyEntity {
     @Element(name = "Value")
     private String mValue;
 
+    private Double mDoubleValue;
+
     public CurrencyEntity(String id, int numCode, String charCode, int nominal, String name, String value) {
         mId = id;
         mNumCode = numCode;
@@ -38,6 +60,15 @@ public class CurrencyEntity {
         mNominal = nominal;
         mName = name;
         mValue = value;
+    }
+
+    public CurrencyEntity(String id, int numCode, String charCode, int nominal, String name, double value) {
+        mId = id;
+        mNumCode = numCode;
+        mCharCode = charCode;
+        mNominal = nominal;
+        mName = name;
+        mDoubleValue = value;
     }
 
     public CurrencyEntity() {}
@@ -64,11 +95,15 @@ public class CurrencyEntity {
 
     public double getValue() {
         //Симпл хмл не принимает запятую в качестве разделителя
-        try {
-            NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-            return format.parse(mValue).doubleValue();
-        } catch (ParseException ignore) {
-            return 0;
+        if (mDoubleValue == null) {
+            try {
+                NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+                mDoubleValue = format.parse(mValue).doubleValue();
+            } catch (ParseException ignore) {
+                return 0;
+            }
         }
+
+        return mDoubleValue;
     }
 }

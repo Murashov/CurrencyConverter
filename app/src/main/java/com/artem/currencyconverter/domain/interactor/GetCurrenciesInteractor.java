@@ -9,7 +9,6 @@ import com.artem.currencyconverter.domain.mapper.CurrencyMapper;
 import com.artem.currencyconverter.domain.observer.InteractorResultObserver;
 import com.artem.currencyconverter.presentation.model.Currency;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
-    Handler mResultHandler;
+    private Handler mResultHandler;
 
     public GetCurrenciesInteractor(Handler resultHandler) {
         mResultHandler = resultHandler;
