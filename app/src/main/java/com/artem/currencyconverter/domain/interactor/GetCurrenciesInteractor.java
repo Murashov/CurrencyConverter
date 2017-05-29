@@ -30,12 +30,21 @@ public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
                 try {
                     final List<CurrencyEntity> entities = CurrencyRepository.getInstance().getCurrencies();
 
-                    mResultHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            observer.onResult(CurrencyMapper.mapList(entities));
-                        }
-                    });
+                    if (entities != null && ! entities.isEmpty()) {
+                        mResultHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                observer.onResult(CurrencyMapper.mapList(entities));
+                            }
+                        });
+                    } else {
+                        mResultHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                observer.onError(new Exception("Invalid result"));
+                            }
+                        });
+                    }
                 } catch (final Exception e) {
                     mResultHandler.post(new Runnable() {
                         @Override
