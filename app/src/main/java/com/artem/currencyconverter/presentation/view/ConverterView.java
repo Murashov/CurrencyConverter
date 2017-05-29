@@ -13,4 +13,6 @@ public interface ConverterView extends MvpView {
     void setTargetValue(double value);
     void startLoading();
     void stopLoading();
+    void setSourcePosition(int position);
+    void setTargetPosition(int position);
 }

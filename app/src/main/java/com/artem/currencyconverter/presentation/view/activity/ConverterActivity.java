@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -23,7 +24,9 @@ import java.util.List;
  * Created by Artem on 5/27/2017.
  */
 
-public class ConverterActivity extends BaseActivity<ConverterPresenter> implements ConverterView, View.OnClickListener{
+public class ConverterActivity extends BaseActivity<ConverterPresenter> implements ConverterView,
+        View.OnClickListener,
+        AdapterView.OnItemSelectedListener {
     private Button      mConvertButton;
     private EditText    mSourceEditText;
     private EditText    mTargetEditText;
@@ -43,6 +46,8 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
         mTargetSpinner  = (Spinner) findViewById(R.id.a_conv_target_sp);
 
         mConvertButton.setOnClickListener(this);
+        mSourceSpinner.setOnItemSelectedListener(this);
+        mTargetSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -84,6 +89,20 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     }
 
     @Override
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+        if (parent.getId() == R.id.a_conv_source_sp) {
+            mPresenter.setSourcePosition(position);
+        } else if (parent.getId() == R.id.a_conv_target_sp) {
+            mPresenter.setTargetPosition(position);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(final AdapterView<?> parent) {
+
+    }
+
+    @Override
     public void startLoading() {
 
     }
@@ -91,6 +110,16 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     @Override
     public void stopLoading() {
 
+    }
+
+    @Override
+    public void setSourcePosition(final int position) {
+        mSourceSpinner.setSelection(position);
+    }
+
+    @Override
+    public void setTargetPosition(final int position) {
+        mTargetSpinner.setSelection(position);
     }
 
     @Override
@@ -106,9 +135,7 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.destroy();
-        }
+        mPresenter.destroy();
     }
 
     @Override
