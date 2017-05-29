@@ -17,6 +17,7 @@ public class ConverterPresenter implements MvpPresenter<ConverterView>, Interact
     private List<Currency> mCurrencies;
     private int mSourcePostion;
     private int mTargetPosition;
+    private boolean mIsInitalized = false;
 
     public ConverterPresenter(GetCurrenciesInteractor getCurrenciesInteractor) {
         mGetCurrenciesInteractor = getCurrenciesInteractor;
@@ -26,10 +27,14 @@ public class ConverterPresenter implements MvpPresenter<ConverterView>, Interact
     public void setView(ConverterView view) {
         mView = view;
 
-        if (mCurrencies != null && ! mCurrencies.isEmpty()) {
-            mView.addCurrencyList(mCurrencies);
-            mView.setSourcePosition(mSourcePostion);
-            mView.setTargetPosition(mTargetPosition);
+        if (mIsInitalized) {
+            if (mCurrencies != null && ! mCurrencies.isEmpty()) {
+                mView.addCurrencyList(mCurrencies);
+                mView.setSourcePosition(mSourcePostion);
+                mView.setTargetPosition(mTargetPosition);
+            } else {
+                mView.showError();
+            }
         }
     }
 
@@ -50,7 +55,7 @@ public class ConverterPresenter implements MvpPresenter<ConverterView>, Interact
 
     @Override
     public void onError(Throwable error) {
-
+        mView.showError();
     }
 
     public void convert(double sourceValue, int sourceIndex, int targetIndex) {
@@ -68,7 +73,13 @@ public class ConverterPresenter implements MvpPresenter<ConverterView>, Interact
     public void initialize() {
         mSourcePostion = 0;
         mTargetPosition = 0;
+        reloadData();
 
+        mIsInitalized = true;
+    }
+
+    public void reloadData() {
+        mCurrencies = null;
         mView.startLoading();
         mGetCurrenciesInteractor.execute(this);
     }

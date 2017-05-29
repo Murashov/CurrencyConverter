@@ -11,8 +11,6 @@ import java.util.List;
 public interface ConverterView extends MvpView {
     void addCurrencyList(List<Currency> currencies);
     void setTargetValue(double value);
-    void startLoading();
-    void stopLoading();
     void setSourcePosition(int position);
     void setTargetPosition(int position);
 }

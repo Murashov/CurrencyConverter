@@ -83,5 +83,28 @@
         android:id="@+id/a_conv_progress_pb"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/a_conv_error_ll"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="invisible">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="@string/a_conv_error"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/a_conv_retry_button"
+            android:layout_marginTop="20dp"
+            android:text="@string/a_conv_retry"/>
+    </LinearLayout>
 </FrameLayout>

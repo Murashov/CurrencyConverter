@@ -36,6 +36,8 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     private Spinner         mTargetSpinner;
     private ProgressBar     mProgressBar;
     private LinearLayout    mContentLayout;
+    private LinearLayout    mErrorLayout;
+    private Button          mRetryButton;
 
     private ConverterPresenter mPresenter;
     private CurrencyAdapter    mAdapter;
@@ -50,8 +52,11 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
         mTargetSpinner  = (Spinner) findViewById(R.id.a_conv_target_sp);
         mProgressBar    = (ProgressBar) findViewById(R.id.a_conv_progress_pb);
         mContentLayout  = (LinearLayout) findViewById(R.id.a_conv_content_ll);
+        mErrorLayout    = (LinearLayout) findViewById(R.id.a_conv_error_ll);
+        mRetryButton    = (Button) findViewById(R.id.a_conv_retry_button);
 
         mConvertButton.setOnClickListener(this);
+        mRetryButton.setOnClickListener(this);
         mSourceSpinner.setOnItemSelectedListener(this);
         mTargetSpinner.setOnItemSelectedListener(this);
     }
@@ -81,17 +86,15 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.a_conv_convert_button) {
-            String strValue = mSourceEditText.getText().toString();
-            if (! strValue.isEmpty()) {
-                try {
-                    double value = Double.valueOf(strValue);
-                    mPresenter.convert(value, mSourceSpinner.getSelectedItemPosition(), mTargetSpinner.getSelectedItemPosition());
-                } catch (NumberFormatException ignore) {
-
-                }
-            }
+        switch (v.getId()) {
+            case R.id.a_conv_convert_button:
+                convert();
+                break;
+            case R.id.a_conv_retry_button:
+                mPresenter.reloadData();
+                break;
         }
+
     }
 
     @Override
@@ -112,12 +115,21 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     public void startLoading() {
         mProgressBar.setVisibility(View.VISIBLE);
         mContentLayout.setVisibility(View.INVISIBLE);
+        mErrorLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void stopLoading() {
         mProgressBar.setVisibility(View.INVISIBLE);
         mContentLayout.setVisibility(View.VISIBLE);
+        mErrorLayout.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showError() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mContentLayout.setVisibility(View.INVISIBLE);
+        mErrorLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -144,6 +156,18 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.destroy();
+    }
+
+    private void convert() {
+        String strValue = mSourceEditText.getText().toString();
+        if (! strValue.isEmpty()) {
+            try {
+                double value = Double.valueOf(strValue);
+                mPresenter.convert(value, mSourceSpinner.getSelectedItemPosition(), mTargetSpinner.getSelectedItemPosition());
+            } catch (NumberFormatException ignore) {
+
+            }
+        }
     }
 
     @Override

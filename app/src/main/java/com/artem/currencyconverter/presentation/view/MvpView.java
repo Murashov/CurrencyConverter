@@ -5,4 +5,7 @@ package com.artem.currencyconverter.presentation.view;
  */
 
 public interface MvpView {
+    void startLoading();
+    void stopLoading();
+    void showError();
 }
