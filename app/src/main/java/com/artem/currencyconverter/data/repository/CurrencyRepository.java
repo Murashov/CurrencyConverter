@@ -19,9 +19,16 @@ public class CurrencyRepository {
     private final RemoteCurrencyLoader mRemoteCurrencyLoader = new RemoteCurrencyLoader(Constants.CURRENCIES_URL);
     private final CurrenciesDbHelper mDbHelper = new CurrenciesSqliteDbHelper(ConverterApplication.getContextObject());
 
-    public List<CurrencyEntity> getCurrencies() throws Exception {
-        List<CurrencyEntity> result = mRemoteCurrencyLoader.load();
-        mDbHelper.refreshCurrencies(result);
+    public List<CurrencyEntity> getCurrencies() {
+        List<CurrencyEntity> result;
+
+        try {
+            result = mRemoteCurrencyLoader.load();
+            mDbHelper.refreshCurrencies(result);
+        } catch (Exception ignore) {
+            result = mDbHelper.getCurrencies();
+        }
+
         return result;
     }
 
