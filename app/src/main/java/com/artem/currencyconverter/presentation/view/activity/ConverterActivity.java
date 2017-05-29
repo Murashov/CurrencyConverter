@@ -46,6 +46,17 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     }
 
     @Override
+    protected void onPostCreate(@Nullable final Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        mPresenter.setView(this);
+
+        if (savedInstanceState == null) {
+            mPresenter.initialize();
+        }
+    }
+
+    @Override
     public void addCurrencyList(List<Currency> currencies) {
         mAdapter = new CurrencyAdapter(this, currencies);
         mSourceSpinner.setAdapter(mAdapter);
@@ -108,8 +119,6 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
     @Override
     public void onLoadFinished(Loader<ConverterPresenter> loader, ConverterPresenter data) {
         mPresenter = data;
-        mPresenter.setView(this);
-        mPresenter.initialize();
     }
 
     @Override
