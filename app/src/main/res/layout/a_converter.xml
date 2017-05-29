@@ -1,64 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/colorMainBackground">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/a_conv_content_ll">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
-            <TextView
+            android:orientation="horizontal">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/a_conv_source"
-                android:textColor="@android:color/black"/>
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:layout_marginRight="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/a_conv_source"
+                    android:textColor="@android:color/black"/>
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/a_conv_source_sp"/>
+                <Spinner
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/a_conv_source_sp"/>
 
-            <EditText
+                <EditText
+                    style="@style/ConverterEditText"
+                    android:id="@+id/a_conv_source_et"
+                    android:layout_marginTop="30dp"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/a_conv_source_et"
-                android:inputType="numberDecimal"/>
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/a_conv_target"
+                    android:textColor="@android:color/black"/>
+
+                <Spinner
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/a_conv_target_sp"/>
+
+                <EditText
+                    style="@style/ConverterEditText"
+                    android:id="@+id/a_conv_target_et"
+                    android:layout_marginTop="30dp"
+                    android:focusable="false"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/a_conv_target"
-                android:textColor="@android:color/black"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/a_conv_target_sp"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/a_conv_target_et"
-                android:inputType="numberDecimal"/>
-        </LinearLayout>
+            android:id="@+id/a_conv_convert_button"
+            android:layout_marginTop="40dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/a_conv_button_title"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/a_conv_convert_button"
-        android:text="@string/a_conv_button_title"/>
-</LinearLayout>
+        android:id="@+id/a_conv_progress_pb"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+</FrameLayout>

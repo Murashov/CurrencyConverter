@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.artem.currencyconverter.R;
@@ -27,11 +29,13 @@ import java.util.List;
 public class ConverterActivity extends BaseActivity<ConverterPresenter> implements ConverterView,
         View.OnClickListener,
         AdapterView.OnItemSelectedListener {
-    private Button      mConvertButton;
-    private EditText    mSourceEditText;
-    private EditText    mTargetEditText;
-    private Spinner     mSourceSpinner;
-    private Spinner     mTargetSpinner;
+    private Button          mConvertButton;
+    private EditText        mSourceEditText;
+    private EditText        mTargetEditText;
+    private Spinner         mSourceSpinner;
+    private Spinner         mTargetSpinner;
+    private ProgressBar     mProgressBar;
+    private LinearLayout    mContentLayout;
 
     private ConverterPresenter mPresenter;
     private CurrencyAdapter    mAdapter;
@@ -44,6 +48,8 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
         mTargetEditText = (EditText) findViewById(R.id.a_conv_target_et);
         mSourceSpinner  = (Spinner) findViewById(R.id.a_conv_source_sp);
         mTargetSpinner  = (Spinner) findViewById(R.id.a_conv_target_sp);
+        mProgressBar    = (ProgressBar) findViewById(R.id.a_conv_progress_pb);
+        mContentLayout  = (LinearLayout) findViewById(R.id.a_conv_content_ll);
 
         mConvertButton.setOnClickListener(this);
         mSourceSpinner.setOnItemSelectedListener(this);
@@ -104,12 +110,14 @@ public class ConverterActivity extends BaseActivity<ConverterPresenter> implemen
 
     @Override
     public void startLoading() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
+        mContentLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void stopLoading() {
-
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mContentLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
