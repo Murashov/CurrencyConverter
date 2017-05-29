@@ -34,7 +34,7 @@ public class Currency implements Parcelable {
     public double convertTo(Currency currency) {
         double r1 = mValue / mNominal;
         double r2 = currency.getValue() / currency.getNominal();
-        return r2 / r1;
+        return r1 / r2;
     }
 
     public String getName() {
