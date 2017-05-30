@@ -17,9 +17,11 @@ import java.util.List;
 
 public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
     private Handler mResultHandler;
+    private CurrencyRepository mCurrencyRepository;
 
-    public GetCurrenciesInteractor(Handler resultHandler) {
+    public GetCurrenciesInteractor(Handler resultHandler, CurrencyRepository currencyRepository) {
         mResultHandler = resultHandler;
+        mCurrencyRepository = currencyRepository;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final List<CurrencyEntity> entities = CurrencyRepository.getInstance().getCurrencies();
+                    final List<CurrencyEntity> entities = mCurrencyRepository.getCurrencies();
 
                     if (entities != null && ! entities.isEmpty()) {
                         mResultHandler.post(new Runnable() {

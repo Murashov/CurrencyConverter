@@ -1,6 +1,6 @@
-package com.artem.currencyconverter.data.remote;
+package com.artem.currencyconverter.data.datastore;
 
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.artem.currencyconverter.data.model.CurrencyEntity;
 import com.artem.currencyconverter.data.model.ExchangeRates;
@@ -12,28 +12,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Artem on 5/27/2017.
  */
 
-public class RemoteCurrencyLoader {
+public class RemoteXMLCurrencyDataStore implements CurrencyDataStore {
     private String mUrl;
     private Persister mPersister = new Persister();
 
-    public RemoteCurrencyLoader(String url) {
+    public RemoteXMLCurrencyDataStore(String url) {
         mUrl = url;
-    }
-
-    public List<CurrencyEntity> load() throws Exception {
-        Reader reader = new StringReader(readXML());
-        ExchangeRates rates = mPersister.read(ExchangeRates.class, reader, false);
-        return rates.getCurrencyEntities();
     }
 
     private String readXML() throws IOException {
@@ -56,5 +47,22 @@ public class RemoteCurrencyLoader {
         }
 
         return sb.toString();
+    }
+
+    @Nullable
+    @Override
+    public List<CurrencyEntity> getCurrencies() {
+        try {
+            Reader reader = new StringReader(readXML());
+            ExchangeRates rates = mPersister.read(ExchangeRates.class, reader, false);
+            return rates.getCurrencyEntities();
+        } catch (Exception ignore) {
+            return null;
+        }
+    }
+
+    @Override
+    public void refreshCurrencies(final List<CurrencyEntity> currencies) {
+
     }
 }

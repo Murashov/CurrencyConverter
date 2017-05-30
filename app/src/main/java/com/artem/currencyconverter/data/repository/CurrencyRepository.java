@@ -1,11 +1,10 @@
 package com.artem.currencyconverter.data.repository;
 
-import com.artem.currencyconverter.data.db.CurrenciesDbHelper;
-import com.artem.currencyconverter.data.db.CurrenciesSqliteDbHelper;
+import android.support.annotation.Nullable;
+
+import com.artem.currencyconverter.data.datastore.CurrencyDataStore;
+import com.artem.currencyconverter.data.datastore.factrory.CurrencyDataStoreFactory;
 import com.artem.currencyconverter.data.model.CurrencyEntity;
-import com.artem.currencyconverter.data.remote.RemoteCurrencyLoader;
-import com.artem.currencyconverter.presentation.ConverterApplication;
-import com.artem.currencyconverter.utils.Constants;
 
 import java.util.List;
 
@@ -14,29 +13,26 @@ import java.util.List;
  */
 
 public class CurrencyRepository {
-    private static CurrencyRepository sCurrencyRepository;
+    private final CurrencyDataStore mRemoteDataStore;
+    private final CurrencyDataStore mLocalDataStore;
 
-    private final RemoteCurrencyLoader mRemoteCurrencyLoader = new RemoteCurrencyLoader(Constants.CURRENCIES_URL);
-    private final CurrenciesDbHelper mDbHelper = new CurrenciesSqliteDbHelper(ConverterApplication.getContextObject());
+    public CurrencyRepository(CurrencyDataStoreFactory localDataStoreFactory, CurrencyDataStoreFactory remoteDataStoreFactory) {
+        mLocalDataStore = localDataStoreFactory.create();
+        mRemoteDataStore = remoteDataStoreFactory.create();
+    }
 
+    @Nullable
     public List<CurrencyEntity> getCurrencies() {
         List<CurrencyEntity> result;
 
-        try {
-            result = mRemoteCurrencyLoader.load();
-            mDbHelper.refreshCurrencies(result);
-        } catch (Exception ignore) {
-            result = mDbHelper.getCurrencies();
+        result = mRemoteDataStore.getCurrencies();
+
+        if (result != null) {
+            mLocalDataStore.refreshCurrencies(result);
+        } else {
+            result = mLocalDataStore.getCurrencies();
         }
 
         return result;
-    }
-
-    public static CurrencyRepository getInstance() {
-        if (sCurrencyRepository == null) {
-            sCurrencyRepository = new CurrencyRepository();
-        }
-
-        return sCurrencyRepository;
     }
 }

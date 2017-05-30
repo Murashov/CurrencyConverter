@@ -1,10 +1,11 @@
-package com.artem.currencyconverter.data.db;
+package com.artem.currencyconverter.data.datastore;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 
 import com.artem.currencyconverter.data.model.CurrencyEntity;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by Artem on 5/28/2017.
  */
 
-public class CurrenciesSqliteDbHelper extends SQLiteOpenHelper implements CurrenciesDbHelper {
+public class CurrencySqliteDataStore extends SQLiteOpenHelper implements CurrencyDataStore {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Converter.db";
 
@@ -32,7 +33,7 @@ public class CurrenciesSqliteDbHelper extends SQLiteOpenHelper implements Curren
     private static final String SQL_CLEAR_TABLE = "DELETE FROM " + CurrencyEntity.TABLE_NAME;
     private static final String SQL_DROP_TABLE  = "DROP TABLE IF EXISTS " + CurrencyEntity.TABLE_NAME;
 
-    public CurrenciesSqliteDbHelper(Context context) {
+    public CurrencySqliteDataStore(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -52,6 +53,7 @@ public class CurrenciesSqliteDbHelper extends SQLiteOpenHelper implements Curren
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    @Nullable
     @Override
     public List<CurrencyEntity> getCurrencies() {
         SQLiteDatabase db = getReadableDatabase();
@@ -81,7 +83,7 @@ public class CurrenciesSqliteDbHelper extends SQLiteOpenHelper implements Curren
         }
         cursor.close();
 
-        return result;
+        return result.isEmpty() ? null : result;
     }
 
     @Override
