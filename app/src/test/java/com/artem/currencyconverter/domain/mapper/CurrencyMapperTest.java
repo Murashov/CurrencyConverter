@@ -1,4 +1,4 @@
-package com.artem.currencyconverter.domain;
+package com.artem.currencyconverter.domain.mapper;
 
 import com.artem.currencyconverter.data.model.CurrencyEntity;
 import com.artem.currencyconverter.domain.mapper.CurrencyMapper;
