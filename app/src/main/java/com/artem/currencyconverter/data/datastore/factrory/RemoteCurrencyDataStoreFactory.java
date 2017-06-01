@@ -2,6 +2,7 @@ package com.artem.currencyconverter.data.datastore.factrory;
 
 import com.artem.currencyconverter.data.datastore.CurrencyDataStore;
 import com.artem.currencyconverter.data.datastore.RemoteXMLCurrencyDataStore;
+import com.artem.currencyconverter.data.helper.RemoteStringReader;
 import com.artem.currencyconverter.utils.Constants;
 
 /**
@@ -11,6 +12,7 @@ import com.artem.currencyconverter.utils.Constants;
 public class RemoteCurrencyDataStoreFactory implements CurrencyDataStoreFactory {
     @Override
     public CurrencyDataStore create() {
-        return new RemoteXMLCurrencyDataStore(Constants.CURRENCIES_URL);
+        RemoteStringReader reader = new RemoteStringReader(Constants.CURRENCIES_URL);
+        return new RemoteXMLCurrencyDataStore(reader);
     }
 }
