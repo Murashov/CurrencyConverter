@@ -9,6 +9,7 @@ import com.artem.currencyconverter.data.datastore.factrory.LocalCurrencyDataStor
 import com.artem.currencyconverter.data.datastore.factrory.RemoteCurrencyDataStoreFactory;
 import com.artem.currencyconverter.data.repository.CurrencyRepository;
 import com.artem.currencyconverter.domain.interactor.GetCurrenciesInteractor;
+import com.artem.currencyconverter.domain.mapper.CurrencyMapper;
 
 /**
  * Created by artemmurashov on 5/30/17.
@@ -25,7 +26,8 @@ public class GlobalDependencies {
         sCurrencyRepository = new CurrencyRepository(localStoreFactory, remoteStoreFactory);
 
         Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-        sGetCurrenciesInteractor = new GetCurrenciesInteractor(mainThreadHandler, sCurrencyRepository);
+        CurrencyMapper mapper = new CurrencyMapper();
+        sGetCurrenciesInteractor = new GetCurrenciesInteractor(mainThreadHandler, sCurrencyRepository, mapper);
     }
 
     public static CurrencyRepository getCurrencyRepository() {

@@ -18,10 +18,12 @@ import java.util.List;
 public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
     private Handler mResultHandler;
     private CurrencyRepository mCurrencyRepository;
+    private CurrencyMapper mMapper;
 
-    public GetCurrenciesInteractor(Handler resultHandler, CurrencyRepository currencyRepository) {
+    public GetCurrenciesInteractor(Handler resultHandler, CurrencyRepository currencyRepository, CurrencyMapper mapper) {
         mResultHandler = resultHandler;
         mCurrencyRepository = currencyRepository;
+        mMapper = mapper;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class GetCurrenciesInteractor implements Interactor<List<Currency>>{
                         mResultHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                observer.onResult(CurrencyMapper.mapList(entities));
+                                observer.onResult(mMapper.mapList(entities));
                             }
                         });
                     } else {

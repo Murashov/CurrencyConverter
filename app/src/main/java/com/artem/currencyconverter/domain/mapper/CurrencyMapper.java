@@ -10,8 +10,9 @@ import java.util.List;
  * Created by Artem on 5/27/2017.
  */
 
-public class CurrencyMapper {
-    public static Currency map(CurrencyEntity entity) {
+public class CurrencyMapper implements Mapper<CurrencyEntity, Currency> {
+    @Override
+    public Currency map(CurrencyEntity entity) {
         Currency currency = new Currency();
         currency.setName(entity.getName());
         currency.setCode(entity.getCharCode());
@@ -21,7 +22,8 @@ public class CurrencyMapper {
         return currency;
     }
 
-    public static List<Currency> mapList(List<CurrencyEntity> entities) {
+    @Override
+    public List<Currency> mapList(List<CurrencyEntity> entities) {
         List<Currency> result = new ArrayList<>(entities.size());
 
         for (CurrencyEntity entity : entities) {
